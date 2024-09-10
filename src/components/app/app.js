@@ -1,9 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import NewTaskForm from '../new-task-form';
 import TaskList from '../task-list';
 import Footer from '../footer';
+
+import './app.css';
 
 const App = () => {
 

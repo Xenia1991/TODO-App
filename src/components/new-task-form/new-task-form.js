@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+
+import './new-task-form.css';
 
 const NewTaskForm = () => {
     return (

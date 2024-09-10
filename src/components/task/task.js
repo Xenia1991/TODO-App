@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+
+import './task.css';
 
 const Task = ( {id, value, status, isEditing, isCompleted} ) => {
     if (isEditing) {
@@ -16,8 +17,8 @@ const Task = ( {id, value, status, isEditing, isCompleted} ) => {
                 </div>
                 <input type="text" className="edit" value="Editing task" />
             </li>
-        )
-    }
+        );
+    };
     return (
         <li className={isCompleted===true ? 'completed' : '' }>
             <div className="view">
@@ -30,7 +31,7 @@ const Task = ( {id, value, status, isEditing, isCompleted} ) => {
                 <button className="icon icon-destroy"></button>
             </div>
         </li>
-    )
+    );
 };
 
 export default Task;
