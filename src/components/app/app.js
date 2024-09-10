@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import NewTaskForm from '../new-task-form';
 import TaskList from '../task-list';
+import Footer from '../footer';
 
 const App = () => {
 
@@ -30,11 +31,30 @@ const App = () => {
       }
    ];
 
+   const filtersData = [
+      {
+         value: 'All',
+         id: 1,
+         isSelected: true
+      },
+      {
+         value: 'Active',
+         id: 2,
+         isSelected: false
+      },
+      {
+         value: 'Completed',
+         id: 3,
+         isSelected: false
+      }
+   ]
+
    return (
       <section className='todoapp'>
         < NewTaskForm />
         <section className='main'>
             <TaskList todos={todoData}/>
+            <Footer filters={filtersData}/>
         </section>
       </section>
    );

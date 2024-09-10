@@ -14,7 +14,7 @@ const Task = ( {id, value, status, isEditing, isCompleted} ) => {
                     <button className="icon icon-edit"></button>
                     <button className="icon icon-destroy"></button>
                 </div>
-                <input type="text" class="edit" value="Editing task" />
+                <input type="text" className="edit" value="Editing task" />
             </li>
         )
     }
