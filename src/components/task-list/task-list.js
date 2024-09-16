@@ -3,17 +3,30 @@ import React from 'react';
 import Task from '../task/task';
 import './task-list.css';
 
-const TaskList = ( {todos} ) => {
+class TaskList extends React.Component {
 
-    const todosItems = todos.map((item) => {
-        const {id, value, status, isEditing, isComplited} = item;
-        return <Task id={id} key={id} value={value} status={status} isEditing={isEditing} isComplited={isComplited}/>;
-    });
-    return (
-        <ul className='todo-list'>
-            {todosItems}
-        </ul>
-    );
+    render() {
+        const todosItems = this.props.todos.map((item) => {
+            const {id, name, status, isEditing, isCompleted} = item;
+            return (
+                <Task 
+                    id={id} 
+                    key={id} 
+                    name={name} 
+                    status={status} 
+                    isEditing={isEditing} 
+                    isCompleted={isCompleted}
+                    onClick={this.props.onActive}
+                    />
+            );
+        });
+        
+        return (
+            <ul className='todo-list'>
+                {todosItems}
+            </ul>
+        );
+    }
 };
 
 export default TaskList;

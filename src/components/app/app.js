@@ -6,33 +6,34 @@ import Footer from '../footer';
 
 import './app.css';
 
-const App = () => {
+class App extends React.Component {
+   state = {
+      todoData: [
+         {
+            id: 1,
+            name: 'Completed task',
+            status: 'created 17 seconds ago',
+            isEditing: false,
+            isCompleted: false
+         },
+         {
+            id: 2,
+            name: 'Editing task',
+            status: 'created 5 minutes ago',
+            isEditing: true,
+            isCompleted: false
+         },
+         {
+            id: 3,
+            name: 'Active task',
+            status: 'created 5 minutes ago',
+            isEditing: false,
+            isCompleted: false,
+         }
+      ]
+   }
 
-   const todoData = [
-      {
-         id: 1,
-         value: 'Completed task',
-         status: 'created 17 seconds ago',
-         isEditing: false,
-         isCompleted: true
-      },
-      {
-         id: 2,
-         value: 'Editing task',
-         status: 'created 5 minutes ago',
-         isEditing: true,
-         isCompleted: false
-      },
-      {
-         id: 3,
-         value: 'Active task',
-         status: 'created 5 minutes ago',
-         isEditing: false,
-         isCompleted: false,
-      }
-   ];
-
-   const filtersData = [
+   filtersData = [
       {
          value: 'All',
          id: 1,
@@ -50,15 +51,33 @@ const App = () => {
       }
    ]
 
-   return (
-      <section className='todoapp'>
-        < NewTaskForm />
-        <section className='main'>
-            <TaskList todos={todoData}/>
-            <Footer filters={filtersData}/>
-        </section>
-      </section>
-   );
+   clickHandler = (id) => {
+      this.setState(( {todoData} ) => {
+         console.log(todoData, id);
+         
+         const index = todoData.findIndex((el) => el.id===id);
+         const elem = todoData.find((el) => el.id === id);
+         elem.isCompleted = !elem.isCompleted
+         const before = todoData.slice(0, index);
+         const after = todoData.slice(index+1);
+         const newArray = [...before, elem, ...after];
+         return {
+            todoData: newArray,
+         }
+      })
+   }  
+
+   render() {
+      return (
+         <section className='todoapp'>
+           < NewTaskForm />
+           <section className='main'>
+               <TaskList todos={this.state.todoData} onActive={this.clickHandler}/>
+               <Footer filters={this.filtersData}/>
+           </section>
+         </section>
+      );
+   }
 };
 
 export default App;
