@@ -17,7 +17,8 @@ class TaskList extends React.Component {
                     isEditing={isEditing} 
                     isCompleted={isCompleted}
                     onClick={this.props.onActive}
-                    />
+                    onDelete={this.props.onDelete}
+                />
             );
         });
         
@@ -26,7 +27,7 @@ class TaskList extends React.Component {
                 {todosItems}
             </ul>
         );
-    }
+    };
 };
 
 export default TaskList;
