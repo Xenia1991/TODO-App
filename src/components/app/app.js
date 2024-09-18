@@ -30,7 +30,12 @@ class App extends React.Component {
             isEditing: false,
             isCompleted: false,
          }
-      ]
+      ],
+      inputValue: '',
+   };
+
+   getTaskId = () => {
+      return Math.floor(Math.random()*1000);
    };
 
    filtersData = [
@@ -80,10 +85,42 @@ class App extends React.Component {
       
    };
 
+   addInputValue = (text) => {
+      this.setState({
+         inputValue: text,
+      });
+   }
+
+   addNewtask = () => {
+      const newTask = {
+         id: this.getTaskId(),
+         name: this.state.inputValue,
+         status: 'created right now',
+         isEditing: false,
+         isCompleted: false,
+      };
+
+      this.setState(( {todoData}, inputValue ) => {
+         console.log(todoData, inputValue);
+         
+         const newTodos = [
+            ...todoData,
+            newTask
+         ]
+         return {
+            todoData: newTodos,
+            inputValue: this.addInputValue(''),
+         }
+      })
+   }
+
    render() {
       return (
          <section className='todoapp'>
-           < NewTaskForm />
+           < NewTaskForm onChange={this.addInputValue} 
+                         onSubmit={this.addNewtask}
+                         value={this.state.inputValue}
+            />
            <section className='main'>
                <TaskList 
                   todos={this.state.todoData} 
