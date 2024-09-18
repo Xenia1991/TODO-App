@@ -5,7 +5,9 @@ import './task-filter.css';
 const TaskFilter = ({value, isSelected}) => {
     return (
         <li>
-            <button className={isSelected===true ? 'selected' : ''}>{value}</button>
+            <button className={isSelected===true ? 'selected' : ''}>
+                {value}
+            </button>
         </li>
     );
 };
