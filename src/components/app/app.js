@@ -34,10 +34,6 @@ class App extends React.Component {
       inputValue: '',
    };
 
-   getTaskId = () => {
-      return Math.floor(Math.random()*1000);
-   };
-
    filtersData = [
       {
          value: 'All',
@@ -56,17 +52,25 @@ class App extends React.Component {
       }
    ];
 
+   getTaskId = () => {
+      return Math.floor(Math.random()*1000);
+   };
+
    clickHandler = (id) => {
       this.setState(( {todoData} ) => {
          const index = todoData.findIndex((el) => el.id===id);
          const elem = todoData.find((el) => el.id === id);
-         elem.isCompleted = !elem.isCompleted;
+         const newElem = {
+            ...elem,
+            isCompleted: !elem.isCompleted,
+         };
 
          const newArray = [
             ...todoData.slice(0, index), 
-            elem, 
+            newElem, 
             ...todoData.slice(index+1)
          ];
+
          return {
             todoData: newArray,
          };
