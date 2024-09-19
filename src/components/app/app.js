@@ -117,6 +117,17 @@ class App extends React.Component {
       });
    };
 
+   deleteAllCompletedTasks = () => {
+      this.setState(( {todoData} ) => {
+         const activeTasks = todoData.filter((todo) => {
+            return !todo.isCompleted
+         });
+         return {
+            todoData: activeTasks,
+         }
+      });
+      
+   }
    render() {
       return (
          <section className='todoapp'>
@@ -136,6 +147,7 @@ class App extends React.Component {
                        onFilterAll={this.filterAll}
                        onFilterActive={this.filterActive}
                        onFilterCompleted={this.filterCompleted}
+                       onDeletedAllCompleted={this.deleteAllCompletedTasks}
                />
            </section>
          </section>

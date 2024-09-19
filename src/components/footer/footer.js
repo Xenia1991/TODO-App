@@ -5,7 +5,7 @@ import './footer.css';
 class Footer extends React.Component {
 
     render() {
-        const { filterFlag,onFilterAll,onFilterActive,onFilterCompleted } = this.props;
+        const { filterFlag,onFilterAll,onFilterActive,onFilterCompleted, onDeletedAllCompleted } = this.props;
         return (
             <footer className="footer">
                 <span className="todo-count">1 items left</span>
@@ -26,7 +26,10 @@ class Footer extends React.Component {
                         </button>
                     </li>
                 </ul>
-                <button className="clear-completed">Clear completed</button>
+                <button className="clear-completed"
+                        onClick={onDeletedAllCompleted}>
+                            Clear completed
+                </button>
             </footer>
         )
     }
