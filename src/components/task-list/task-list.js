@@ -6,7 +6,16 @@ import './task-list.css';
 class TaskList extends React.Component {
 
     render() {
-        const todosItems = this.props.todos.map((item) => {
+        const {filterFlag} = this.props;
+        let filteredTodos = [...this.props.todos];
+        
+        if (filterFlag === 'active') {
+            filteredTodos= filteredTodos.filter((todo) => !todo.isCompleted)
+        }
+        if (filterFlag === 'completed') {
+            filteredTodos= filteredTodos.filter((todo) => todo.isCompleted)
+        }
+        const todosItems = filteredTodos.map((item) => {
             const {id, name, status, isEditing, isCompleted} = item;
             return (
                 <Task 

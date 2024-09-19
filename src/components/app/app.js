@@ -31,26 +31,9 @@ class App extends React.Component {
             isCompleted: false,
          }
       ],
+      filterFlag: 'all',
       inputValue: '',
    };
-
-   filtersData = [
-      {
-         value: 'All',
-         id: 1,
-         isSelected: true
-      },
-      {
-         value: 'Active',
-         id: 2,
-         isSelected: false
-      },
-      {
-         value: 'Completed',
-         id: 3,
-         isSelected: false
-      }
-   ];
 
    getTaskId = () => {
       return Math.floor(Math.random()*1000);
@@ -116,6 +99,24 @@ class App extends React.Component {
       })
    }
 
+   filterAll = () => {
+      this.setState({
+         filterFlag: 'all'
+      });
+   };
+
+   filterActive = () => {
+      this.setState({
+         filterFlag: 'active'
+      });
+   };
+
+   filterCompleted = () => {
+      this.setState({
+         filterFlag: 'completed'
+      });
+   };
+
    render() {
       return (
          <section className='todoapp'>
@@ -125,11 +126,17 @@ class App extends React.Component {
             />
            <section className='main'>
                <TaskList 
-                  todos={this.state.todoData} 
+                  todos={this.state.todoData}
+                  filterFlag={this.state.filterFlag}
                   onActive={this.makeComplited}
-                  onDelete={this.deleteTask} 
+                  onDelete={this.deleteTask}
                />
-               <Footer filters={this.filtersData}/>
+               <Footer todos={this.state.todoData}
+                       filterFlag={this.state.filterFlag}
+                       onFilterAll={this.filterAll}
+                       onFilterActive={this.filterActive}
+                       onFilterCompleted={this.filterCompleted}
+               />
            </section>
          </section>
       );

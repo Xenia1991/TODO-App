@@ -1,25 +1,35 @@
 import React from 'react';
 
-import TaskFilter from '../task-filter/task-filter';
-
 import './footer.css';
 
-const Footer = ({filters}) => {
-    
-    const filterItems = filters.map((item) => {
-        const {value, id, isSelected} = item;
-        return <TaskFilter value={value} key={id} isSelected={isSelected} />
-    })
+class Footer extends React.Component {
 
-    return (
-        <footer className="footer">
-            <span className="todo-count">1 items left</span>
-            <ul className="filters">
-                {filterItems}
-            </ul>
-            <button className="clear-completed">Clear completed</button>
-        </footer>
-    )
+    render() {
+        const { filterFlag,onFilterAll,onFilterActive,onFilterCompleted } = this.props;
+        return (
+            <footer className="footer">
+                <span className="todo-count">1 items left</span>
+                <ul className="filters">
+                    <li onClick={onFilterAll}>
+                        <button className={filterFlag === 'all' ? 'selected' : ''}>
+                           All
+                        </button>
+                    </li>
+                    <li onClick={onFilterActive}>
+                        <button className={filterFlag === 'active' ? 'selected' : ''}>
+                            Active
+                        </button>
+                    </li>
+                    <li onClick={onFilterCompleted}>
+                        <button className={filterFlag === 'completed' ? 'selected' : ''}>
+                            Completed
+                        </button>
+                    </li>
+                </ul>
+                <button className="clear-completed">Clear completed</button>
+            </footer>
+        )
+    }
 };
 
 export default Footer;
