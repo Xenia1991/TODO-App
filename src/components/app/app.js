@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDistanceToNow } from 'date-fns';
 
 import NewTaskForm from '../new-task-form';
 import TaskList from '../task-list';
@@ -12,21 +13,21 @@ class App extends React.Component {
          {
             id: 1,
             name: 'Completed task',
-            status: 'created 17 seconds ago',
+            status: `created ${formatDistanceToNow(new Date(), {includeSeconds: true})}`,
             isEditing: false,
             isCompleted: false
          },
          {
             id: 2,
             name: 'Editing task',
-            status: 'created 5 minutes ago',
+            status: `created ${formatDistanceToNow(new Date(), {includeSeconds: true})}`,
             isEditing: true,
             isCompleted: false
          },
          {
             id: 3,
             name: 'Active task',
-            status: 'created 5 minutes ago',
+            status: `created ${formatDistanceToNow(new Date(), {includeSeconds: true})}`,
             isEditing: false,
             isCompleted: false,
          }
@@ -82,7 +83,7 @@ class App extends React.Component {
       const newTask = {
          id: this.getTaskId(),
          name: this.state.inputValue,
-         status: 'created right now',
+         status: `created ${formatDistanceToNow(new Date(), {includeSeconds: true})}`,
          isEditing: false,
          isCompleted: false,
       };
