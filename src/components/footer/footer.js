@@ -5,10 +5,20 @@ import './footer.css';
 class Footer extends React.Component {
 
     render() {
-        const { filterFlag,onFilterAll,onFilterActive,onFilterCompleted, onDeletedAllCompleted } = this.props;
+        const { filterFlag,
+                onFilterAll,
+                onFilterActive,
+                onFilterCompleted, 
+                onDeletedAllCompleted,
+                todos 
+        } = this.props;
+        const leftTasks = todos.filter((todo) => {
+            return !todo.isCompleted;
+        });
+        
         return (
             <footer className="footer">
-                <span className="todo-count">1 items left</span>
+                <span className="todo-count">{leftTasks.length} items left</span>
                 <ul className="filters">
                     <li onClick={onFilterAll}>
                         <button className={filterFlag === 'all' ? 'selected' : ''}>
