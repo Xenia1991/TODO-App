@@ -2,6 +2,7 @@ import React from 'react';
 
 import Task from '../task/task';
 import './task-list.css';
+import PropTypes from 'prop-types';
 
 class TaskList extends React.Component {
 
@@ -37,6 +38,14 @@ class TaskList extends React.Component {
             </ul>
         );
     };
+};
+
+TaskList.defaultProps = {
+
+};
+
+TaskList.propTypes = {
+    
 };
 
 export default TaskList;

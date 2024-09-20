@@ -30,4 +30,12 @@ class NewTaskForm extends React.Component {
     }
 };
 
+NewTaskForm.defaultProps = {
+
+};
+
+NewTaskForm.propTypes = {
+
+};
+
 export default NewTaskForm;

@@ -9,29 +9,7 @@ import './app.css';
 class App extends React.Component {
   
    state = {
-      todoData: [
-         // {
-         //    id: 1,
-         //    name: 'Completed task',
-         //    status: new Date(),
-         //    isEditing: false,
-         //    isCompleted: false
-         // },
-         // {
-         //    id: 2,
-         //    name: 'Editing task',
-         //    status: new Date(),
-         //    isEditing: true,
-         //    isCompleted: false
-         // },
-         // {
-         //    id: 3,
-         //    name: 'Active task',
-         //    status: new Date(),
-         //    isEditing: false,
-         //    isCompleted: false,
-         // }
-      ],
+      todoData: [],
       filterFlag: 'all',
       inputValue: '',
    };
@@ -137,11 +115,10 @@ class App extends React.Component {
                          value={this.state.inputValue}
             />
            <section className='main'>
-               <TaskList 
-                  todos={this.state.todoData}
-                  filterFlag={this.state.filterFlag}
-                  onActive={this.makeComplited}
-                  onDelete={this.deleteTask}
+               <TaskList todos={this.state.todoData}
+                         filterFlag={this.state.filterFlag}
+                         onActive={this.makeComplited}
+                         onDelete={this.deleteTask}
                />
                <Footer todos={this.state.todoData}
                        filterFlag={this.state.filterFlag}

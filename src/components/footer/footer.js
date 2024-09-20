@@ -45,6 +45,12 @@ class Footer extends React.Component {
     }
 };
 
+Footer.defaultProps = {
 
+};
+
+Footer.propTypes = {
+
+};
 
 export default Footer;

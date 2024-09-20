@@ -2,6 +2,7 @@ import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
 
 import './task.css';
+import PropTypes from 'prop-types';
 
 class Task extends React.Component {
     render() {
@@ -54,6 +55,14 @@ class Task extends React.Component {
             </li>
         );
     };
+};
+
+Task.defaultProps = {
+
+};
+
+Task.propTypes = {
+
 };
 
 export default Task;
