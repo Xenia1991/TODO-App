@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './footer.css';
+import PropTypes from 'prop-types';
 
 class Footer extends React.Component {
 
@@ -46,11 +47,21 @@ class Footer extends React.Component {
 };
 
 Footer.defaultProps = {
-
+    todos: [],
+    filterFlag: 'All',
+    onFilterAll: () => {console.log('you choose filter - All')},
+    onFilterActive: () => {console.log('you choose filter - Active')},
+    onFilterCompleted: () => {console.log('you choose filter - Completed')},
+    onDeletedAllCompleted: () => {console.log('you delete all todos')},
 };
 
 Footer.propTypes = {
-
+    todos: PropTypes.arrayOf(PropTypes.object),
+    filterFlag: PropTypes.string,
+    onFilterAll: PropTypes.func,
+    onFilterActive: PropTypes.func,
+    onFilterCompleted: PropTypes.func,
+    onDeletedAllCompleted: PropTypes.func,
 };
 
 export default Footer;

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './new-task-form.css';
+import PropTypes from 'prop-types';
 
 class NewTaskForm extends React.Component {
     handleChange = (event) => {
@@ -31,11 +32,15 @@ class NewTaskForm extends React.Component {
 };
 
 NewTaskForm.defaultProps = {
-
+    value: 'New task is here',
+    onChange: () => {console.log('value is changing')},
+    onSubmit: () => {console.log('you submit new task')},
 };
 
 NewTaskForm.propTypes = {
-
+    value: PropTypes.string,
+    onChange: PropTypes.func,
+    onSubmit: PropTypes.func,
 };
 
 export default NewTaskForm;

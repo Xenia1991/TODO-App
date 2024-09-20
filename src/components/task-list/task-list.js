@@ -41,11 +41,13 @@ class TaskList extends React.Component {
 };
 
 TaskList.defaultProps = {
-
+    todos: [],
+    filterflag: 'All',
 };
 
 TaskList.propTypes = {
-    
+    todos: PropTypes.arrayOf(PropTypes.object),
+    filterFlag: PropTypes.string,
 };
 
 export default TaskList;

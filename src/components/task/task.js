@@ -58,11 +58,21 @@ class Task extends React.Component {
 };
 
 Task.defaultProps = {
-
+    name: 'To da something',
+    id: 1001,
+    isEditing: false,
+    isCompleted: false,
+    onClick: () => {console.log('you click on task')},
+    onDelete: () => {console.log('you try to delte this task')},
 };
 
 Task.propTypes = {
-
+    name: PropTypes.string,
+    id: PropTypes.number,
+    isEditing: PropTypes.bool,
+    isCompleted: PropTypes.bool,
+    onClick: PropTypes.func,
+    onDelete: PropTypes.func,
 };
 
 export default Task;

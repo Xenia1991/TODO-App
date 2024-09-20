@@ -66,14 +66,14 @@ class App extends React.Component {
          isCompleted: false,
       };
 
-      this.setState(( {todoData}, inputValue ) => {
+      this.setState(( {todoData} ) => {
          const newTodos = [
             ...todoData,
             newTask
          ]
          return {
             todoData: newTodos,
-            [inputValue]: this.addInputValue(''),
+            inputValue: '',
          }
       })
    }
@@ -106,7 +106,8 @@ class App extends React.Component {
          }
       });
       
-   }
+   };
+   
    render() {
       return (
          <section className='todoapp'>
