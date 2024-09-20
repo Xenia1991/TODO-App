@@ -38,7 +38,12 @@ class Task extends React.Component {
                     />
                     <label onClick={() => this.props.onClick(this.props.id)}>
                         <span className="description">{this.props.name}</span>
-                        <span className="created">{this.props.status}</span>
+                        <span className="created">     
+                            {`created ${formatDistanceToNow(this.props.status, {
+                                                            includeSeconds: true,
+                                                            addSuffix: true,
+                                        })}`}
+                        </span>
                     </label>
                     <button className="icon icon-edit"></button>
                     <button 

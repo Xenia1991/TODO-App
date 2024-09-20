@@ -1,5 +1,4 @@
 import React from 'react';
-import { formatDistanceToNow } from 'date-fns';
 
 import NewTaskForm from '../new-task-form';
 import TaskList from '../task-list';
@@ -8,29 +7,30 @@ import Footer from '../footer';
 import './app.css';
 
 class App extends React.Component {
+  
    state = {
       todoData: [
-         {
-            id: 1,
-            name: 'Completed task',
-            status: `created ${formatDistanceToNow(new Date(), {includeSeconds: true})}`,
-            isEditing: false,
-            isCompleted: false
-         },
-         {
-            id: 2,
-            name: 'Editing task',
-            status: `created ${formatDistanceToNow(new Date(), {includeSeconds: true})}`,
-            isEditing: true,
-            isCompleted: false
-         },
-         {
-            id: 3,
-            name: 'Active task',
-            status: `created ${formatDistanceToNow(new Date(), {includeSeconds: true})}`,
-            isEditing: false,
-            isCompleted: false,
-         }
+         // {
+         //    id: 1,
+         //    name: 'Completed task',
+         //    status: new Date(),
+         //    isEditing: false,
+         //    isCompleted: false
+         // },
+         // {
+         //    id: 2,
+         //    name: 'Editing task',
+         //    status: new Date(),
+         //    isEditing: true,
+         //    isCompleted: false
+         // },
+         // {
+         //    id: 3,
+         //    name: 'Active task',
+         //    status: new Date(),
+         //    isEditing: false,
+         //    isCompleted: false,
+         // }
       ],
       filterFlag: 'all',
       inputValue: '',
@@ -83,7 +83,7 @@ class App extends React.Component {
       const newTask = {
          id: this.getTaskId(),
          name: this.state.inputValue,
-         status: `created ${formatDistanceToNow(new Date(), {includeSeconds: true})}`,
+         status: new Date(),
          isEditing: false,
          isCompleted: false,
       };
