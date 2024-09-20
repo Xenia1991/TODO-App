@@ -36,6 +36,7 @@ class Task extends React.Component {
                            checked={this.props.isCompleted} 
                            type="checkbox" 
                            onClick={() => this.props.onClick(this.props.id)}
+                           onChange={(e) => e.target.checked}
                     />
                     <label onClick={() => this.props.onClick(this.props.id)}>
                         <span className="description">{this.props.name}</span>
