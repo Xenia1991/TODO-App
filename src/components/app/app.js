@@ -98,6 +98,7 @@ class App extends React.Component {
 
   render() {
     const { todoData, inputValue, filterFlag } = this.state;
+    console.log(todData);
 
     return (
       <section className="todoapp">
