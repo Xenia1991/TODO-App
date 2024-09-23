@@ -20,7 +20,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint --debug src/",
     "lint:fix": "eslint --debug src/ --fix",
-    "format": "prettier --write",
+    "format": "prettier --write src/",
     "prepare": "husky"
   },
   "eslintConfig": {
@@ -65,9 +65,8 @@
   },
  "lint-staged": {
     "src/**/*.{js,jsx}": [
-      "lint:fix",
-      "format",
-      "git add"
+      "npm run lint:fix",
+      "npm run format"
     ]
   }
 }
