@@ -41,10 +41,10 @@ class Footer extends React.Component {
 Footer.defaultProps = {
   todos: [],
   filterFlag: 'All',
-  onFilterAll: () => [],
-  onFilterActive: () => [],
-  onFilterCompleted: () => [],
-  onDeletedAllCompleted: () => [],
+  onFilterAll: () => {},
+  onFilterActive: () => {},
+  onFilterCompleted: () => {},
+  onDeletedAllCompleted: () => {},
 };
 
 Footer.propTypes = {
@@ -52,7 +52,7 @@ Footer.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
-      status: PropTypes.string,
+      status: PropTypes.instanceOf(Date),
       isEditing: PropTypes.bool,
       isCompleted: PropTypes.bool,
     })

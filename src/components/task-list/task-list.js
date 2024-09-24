@@ -7,7 +7,7 @@ import './task-list.css';
 
 class TaskList extends React.Component {
   render() {
-    const { todos, filterFlag, onActive, onDelete } = this.props;
+    const { todos, value, filterFlag, onActive, onDelete, onEdit, onChange, onSubmit } = this.props;
     let filteredTodos = [...todos];
 
     if (filterFlag === 'active') {
@@ -28,6 +28,10 @@ class TaskList extends React.Component {
           isCompleted={isCompleted}
           onClick={onActive}
           onDelete={onDelete}
+          onEdit={onEdit}
+          value={value}
+          onChange={onChange}
+          onSubmit={onSubmit}
         />
       );
     });
@@ -38,6 +42,12 @@ class TaskList extends React.Component {
 TaskList.defaultProps = {
   todos: [],
   filterFlag: 'All',
+  value: 'editing task',
+  onActive: () => {},
+  onDelete: () => {},
+  onEdit: () => {},
+  onChange: () => {},
+  onSubmit: () => {},
 };
 
 TaskList.propTypes = {
@@ -45,12 +55,18 @@ TaskList.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
-      status: PropTypes.string,
+      status: PropTypes.instanceOf(Date),
       isEditing: PropTypes.bool,
       isCompleted: PropTypes.bool,
     })
   ),
   filterFlag: PropTypes.string,
+  value: PropTypes.string,
+  onActive: PropTypes.func,
+  onDelete: PropTypes.func,
+  onEdit: PropTypes.func,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 export default TaskList;

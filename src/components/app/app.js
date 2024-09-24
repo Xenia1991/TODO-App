@@ -11,6 +11,7 @@ class App extends React.Component {
     todoData: [],
     filterFlag: 'all',
     inputValue: '',
+    editInputValue: '',
   };
 
   getTaskId = () => Math.floor(Math.random() * 1000);
@@ -52,21 +53,22 @@ class App extends React.Component {
   addNewtask = () => {
     const { inputValue } = this.state;
 
-    const newTask = {
-      id: this.getTaskId(),
-      name: inputValue,
-      status: new Date(),
-      isEditing: false,
-      isCompleted: false,
-    };
-
-    this.setState(({ todoData }) => {
-      const newTodos = [...todoData, newTask];
-      return {
-        todoData: newTodos,
-        inputValue: '',
+    if (inputValue) {
+      const newTask = {
+        id: this.getTaskId(),
+        name: inputValue.trim(),
+        status: new Date(),
+        isEditing: false,
+        isCompleted: false,
       };
-    });
+      this.setState(({ todoData }) => {
+        const newTodos = [...todoData, newTask];
+        return {
+          todoData: newTodos,
+          inputValue: '',
+        };
+      });
+    }
   };
 
   filterAll = () => {
@@ -96,14 +98,68 @@ class App extends React.Component {
     });
   };
 
+  editTask = (id) => {
+    this.setState(({ todoData }) => {
+      const index = todoData.findIndex((el) => el.id === id);
+      const elem = todoData.find((el) => el.id === id);
+      const newElem = {
+        ...elem,
+        isEditing: !elem.isEditing,
+      };
+
+      const newArray = [...todoData.slice(0, index), newElem, ...todoData.slice(index + 1)];
+
+      return {
+        todoData: newArray,
+        editInputValue: newElem.name,
+      };
+    });
+  };
+
+  editInputValue = (text) => {
+    this.setState({
+      editInputValue: text,
+    });
+  };
+
+  changeTask = (id) => {
+    const { editInputValue } = this.state;
+
+    if (editInputValue.trim()) {
+      this.setState(({ todoData }) => {
+        const index = todoData.findIndex((el) => el.id === id);
+        const elem = todoData.find((el) => el.id === id);
+        const newElem = {
+          ...elem,
+          name: editInputValue.trim(),
+          isEditing: !elem.isEditing,
+        };
+        const newArray = [...todoData.slice(0, index), newElem, ...todoData.slice(index + 1)];
+        return {
+          todoData: newArray,
+          editInputValue: '',
+        };
+      });
+    }
+  };
+
   render() {
-    const { todoData, inputValue, filterFlag } = this.state;
+    const { todoData, inputValue, filterFlag, editInputValue } = this.state;
 
     return (
       <section className="todoapp">
         <NewTaskForm onChange={this.addInputValue} onSubmit={this.addNewtask} value={inputValue} />
         <section className="main">
-          <TaskList todos={todoData} filterFlag={filterFlag} onActive={this.makeComplited} onDelete={this.deleteTask} />
+          <TaskList
+            todos={todoData}
+            filterFlag={filterFlag}
+            onActive={this.makeComplited}
+            onDelete={this.deleteTask}
+            onEdit={this.editTask}
+            value={editInputValue}
+            onChange={this.editInputValue}
+            onSubmit={this.changeTask}
+          />
           <Footer
             todos={todoData}
             filterFlag={filterFlag}
