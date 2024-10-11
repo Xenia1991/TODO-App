@@ -8,19 +8,17 @@ class Task extends React.Component {
   handleChange = (event) => {
     const { onChange } = this.props;
     const { value } = event.target;
-    console.log('HI, I am changing right now. In handleChange');
     onChange(value);
   };
 
   handleSubmit = (event) => {
     const { onSubmit, id } = this.props;
     event.preventDefault();
-    console.log('HI, we are trying to submit. In handleSubmit');
     onSubmit(id);
   };
 
   render() {
-    const { name, id, status, isCompleted, isEditing, onClick, onDelete, onEdit, value } = this.props;
+    const { name, id, status, isCompleted, isEditing, minutes, seconds, onClick, onDelete, onEdit, value } = this.props;
     if (isEditing) {
       return (
         <li className="editing">
@@ -46,7 +44,7 @@ class Task extends React.Component {
             <span className="description">
               <button type="button" className="icon icon-play" />
               <button type="button" className="icon icon-pause" />
-              12:25
+              {`${minutes}:${seconds}`}
             </span>
             <span className="description">
               {`created ${formatDistanceToNow(status.toString(), {

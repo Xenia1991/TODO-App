@@ -11,6 +11,8 @@ class App extends React.Component {
     todoData: [],
     filterFlag: 'all',
     inputValue: '',
+    inputMin: '',
+    inputSec: '',
     editInputValue: '',
   };
 
@@ -50,21 +52,37 @@ class App extends React.Component {
     });
   };
 
-  addNewtask = () => {
-    const { inputValue } = this.state;
+  addMinutesValue = (text) => {
+    this.setState({
+      inputMin: text,
+    });
+  };
 
-    if (inputValue) {
+  addSecondsValue = (text) => {
+    this.setState({
+      inputSec: text,
+    });
+  };
+
+  addNewtask = () => {
+    const { inputValue, inputMin, inputSec } = this.state;
+
+    if (inputValue && inputMin && inputSec) {
       const newTask = {
         id: this.getTaskId(),
         name: inputValue.trim(),
         status: new Date(),
         isEditing: false,
         isCompleted: false,
+        minutes: Number(inputMin),
+        seconds: Number(inputSec),
       };
       this.setState(({ todoData }) => {
         const newTodos = [...todoData, newTask];
         return {
           todoData: newTodos,
+          inputMin: '',
+          inputSec: '',
           inputValue: '',
         };
       });
@@ -144,11 +162,19 @@ class App extends React.Component {
   };
 
   render() {
-    const { todoData, inputValue, filterFlag, editInputValue } = this.state;
+    const { todoData, inputValue, filterFlag, editInputValue, inputMin, inputSec } = this.state;
 
     return (
       <section className="todoapp">
-        <NewTaskForm onChange={this.addInputValue} onSubmit={this.addNewtask} value={inputValue} />
+        <NewTaskForm
+          onChange={this.addInputValue}
+          onMinutesChange={this.addMinutesValue}
+          onSecondsChange={this.addSecondsValue}
+          onSubmit={this.addNewtask}
+          minValue={inputMin}
+          secValue={inputSec}
+          value={inputValue}
+        />
         <section className="main">
           <TaskList
             todos={todoData}

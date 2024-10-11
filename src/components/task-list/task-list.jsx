@@ -17,7 +17,7 @@ class TaskList extends React.Component {
       filteredTodos = filteredTodos.filter((todo) => todo.isCompleted);
     }
     const todosItems = filteredTodos.map((item) => {
-      const { id, name, status, isEditing, isCompleted } = item;
+      const { id, name, status, isEditing, isCompleted, minutes, seconds } = item;
       return (
         <Task
           id={id}
@@ -26,6 +26,8 @@ class TaskList extends React.Component {
           status={status}
           isEditing={isEditing}
           isCompleted={isCompleted}
+          minutes={minutes}
+          seconds={seconds}
           onClick={onActive}
           onDelete={onDelete}
           onEdit={onEdit}
