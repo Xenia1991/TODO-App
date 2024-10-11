@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import './task.css';
@@ -7,12 +8,14 @@ class Task extends React.Component {
   handleChange = (event) => {
     const { onChange } = this.props;
     const { value } = event.target;
+    console.log('HI, I am changing right now. In handleChange');
     onChange(value);
   };
 
   handleSubmit = (event) => {
     const { onSubmit, id } = this.props;
     event.preventDefault();
+    console.log('HI, we are trying to submit. In handleSubmit');
     onSubmit(id);
   };
 
@@ -39,8 +42,13 @@ class Task extends React.Component {
             onChange={(e) => e.target.checked}
           />
           <label onClick={() => onClick(id)}>
-            <span className="description">{name}</span>
-            <span className="created">
+            <span className="title">{name}</span>
+            <span className="description">
+              <button type="button" className="icon icon-play" />
+              <button type="button" className="icon icon-pause" />
+              12:25
+            </span>
+            <span className="description">
               {`created ${formatDistanceToNow(status.toString(), {
                 includeSeconds: true,
                 addSuffix: true,
