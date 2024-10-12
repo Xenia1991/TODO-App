@@ -17,7 +17,7 @@ class TaskList extends React.Component {
       filteredTodos = filteredTodos.filter((todo) => todo.isCompleted);
     }
     const todosItems = filteredTodos.map((item) => {
-      const { id, name, status, isEditing, isCompleted, minutes, seconds } = item;
+      const { id, name, status, isEditing, isCompleted, minutes, seconds, isTimerOn } = item;
       return (
         <Task
           id={id}
@@ -36,6 +36,7 @@ class TaskList extends React.Component {
           onSubmit={onSubmit}
           onPause={onPause}
           onPlay={onPlay}
+          isTimerOn={isTimerOn}
         />
       );
     });

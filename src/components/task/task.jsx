@@ -27,6 +27,7 @@ class Task extends React.Component {
       isEditing,
       minutes,
       seconds,
+      isTimerOn,
       onClick,
       onDelete,
       onEdit,
@@ -59,9 +60,14 @@ class Task extends React.Component {
               {name}
             </span>
             <span className="description">
-              <button type="button" className="icon icon-play" onClick={() => onPlay(id)} />
-              <button type="button" className="icon icon-pause" onClick={() => onPause(id)} />
-              {`${minutes}:${seconds}`}
+              <button
+                type="button"
+                className="icon icon-play"
+                onClick={() => onPlay(id)}
+                disabled={isCompleted || isTimerOn}
+              />
+              <button type="button" className="icon icon-pause" onClick={() => onPause(id)} disabled={isCompleted} />
+              {Number(minutes) !== 0 || Number(seconds) !== 0 ? `${minutes}:${seconds}` : 'Time is over!'}
             </span>
             <span className="description">
               {`created ${formatDistanceToNow(status.toString(), {
@@ -70,7 +76,13 @@ class Task extends React.Component {
               })}`}
             </span>
           </label>
-          <button aria-label="edit form" type="button" className="icon icon-edit" onClick={() => onEdit(id)} />
+          <button
+            aria-label="edit form"
+            type="button"
+            className="icon icon-edit"
+            onClick={() => onEdit(id)}
+            disabled={isCompleted}
+          />
           <button aria-label="delete form" type="button" className="icon icon-destroy" onClick={() => onDelete(id)} />
         </div>
       </li>
