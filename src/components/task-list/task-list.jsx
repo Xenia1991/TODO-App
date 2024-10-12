@@ -7,7 +7,7 @@ import './task-list.css';
 
 class TaskList extends React.Component {
   render() {
-    const { todos, value, filterFlag, onActive, onDelete, onEdit, onChange, onSubmit } = this.props;
+    const { todos, value, filterFlag, onActive, onDelete, onEdit, onChange, onSubmit, onPause, onPlay } = this.props;
     let filteredTodos = [...todos];
 
     if (filterFlag === 'active') {
@@ -34,6 +34,8 @@ class TaskList extends React.Component {
           value={value}
           onChange={onChange}
           onSubmit={onSubmit}
+          onPause={onPause}
+          onPlay={onPlay}
         />
       );
     });

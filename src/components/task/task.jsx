@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
@@ -18,7 +19,21 @@ class Task extends React.Component {
   };
 
   render() {
-    const { name, id, status, isCompleted, isEditing, minutes, seconds, onClick, onDelete, onEdit, value } = this.props;
+    const {
+      name,
+      id,
+      status,
+      isCompleted,
+      isEditing,
+      minutes,
+      seconds,
+      onClick,
+      onDelete,
+      onEdit,
+      value,
+      onPause,
+      onPlay,
+    } = this.props;
     if (isEditing) {
       return (
         <li className="editing">
@@ -39,11 +54,13 @@ class Task extends React.Component {
             onClick={() => onClick(id)}
             onChange={(e) => e.target.checked}
           />
-          <label onClick={() => onClick(id)}>
-            <span className="title">{name}</span>
+          <label>
+            <span className="title" onClick={() => onClick(id)}>
+              {name}
+            </span>
             <span className="description">
-              <button type="button" className="icon icon-play" />
-              <button type="button" className="icon icon-pause" />
+              <button type="button" className="icon icon-play" onClick={() => onPlay(id)} />
+              <button type="button" className="icon icon-pause" onClick={() => onPause(id)} />
               {`${minutes}:${seconds}`}
             </span>
             <span className="description">

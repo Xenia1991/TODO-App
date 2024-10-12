@@ -161,8 +161,47 @@ class App extends React.Component {
     }
   };
 
+  pauseTimer = (id) => {
+    console.log('you are clicked on paused button');
+    const { todoData } = this.state;
+    const currentTask = todoData.filter((todo) => todo.id === id);
+    const [task] = currentTask;
+    const index = todoData.findIndex((el) => el.id === id);
+    const newTask = {
+      ...task,
+      timerId: clearInterval(task.timerId),
+    };
+    const newArray = [...todoData.slice(0, index), newTask, ...todoData.slice(index + 1)];
+    this.setState({
+      todoData: newArray,
+    });
+  };
+
+  startTimer = (id) => {
+    const setTimer = setInterval(() => {
+      const { todoData } = this.state;
+      const currentTask = todoData.filter((todo) => todo.id === id);
+      const [task] = currentTask;
+      console.log(task.minutes, task.seconds);
+      const index = todoData.findIndex((el) => el.id === id);
+      const newTask = {
+        ...task,
+        minutes: [
+          Number(task.minutes) !== 0 && Number(task.seconds) === 0 ? Number(task.minutes) - 1 : Number(task.minutes),
+        ],
+        seconds: [Number(task.seconds) !== 0 ? Number(task.seconds) - 1 : '59'],
+        timerId: setTimer,
+      };
+      const newArray = [...todoData.slice(0, index), newTask, ...todoData.slice(index + 1)];
+      this.setState({
+        todoData: newArray,
+      });
+    }, 1000);
+    return setTimer;
+  };
+
   render() {
-    const { todoData, inputValue, filterFlag, editInputValue, inputMin, inputSec } = this.state;
+    const { todoData, inputValue, filterFlag, editInputValue, inputMin, inputSec, timerId } = this.state;
 
     return (
       <section className="todoapp">
@@ -185,6 +224,9 @@ class App extends React.Component {
             value={editInputValue}
             onChange={this.editInputValue}
             onSubmit={this.changeTask}
+            onPause={this.pauseTimer}
+            onPlay={this.startTimer}
+            timer={timerId}
           />
           <Footer
             todos={todoData}
