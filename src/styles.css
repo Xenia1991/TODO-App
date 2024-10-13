@@ -236,6 +236,7 @@ body {
 .todo-list li label {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   padding: 15px 85px 15px 60px;
 }
@@ -260,7 +261,6 @@ body {
   transition: color 0.4s;
   font-weight: 400;
   color: #4d4d4d;
-  width: 270px;
 }
 
 .todo-list li.completed label .title {
@@ -316,6 +316,9 @@ body {
   font-size: 15px;
 }
 
+.todo-list li .icon-pause {
+  margin-right: 5px;
+}
 .icon-pause:after {
   content: '⏸';
 }

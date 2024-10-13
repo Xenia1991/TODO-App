@@ -45,9 +45,16 @@ class NewTaskForm extends React.Component {
             value={value}
             onChange={this.handleChangeTask}
           />
-          <input className="new-todo-form__timer" placeholder="Min" onChange={this.handleChangeMin} value={minValue} />
+          <input
+            type="number"
+            className="new-todo-form__timer"
+            placeholder="Min"
+            onChange={this.handleChangeMin}
+            value={minValue}
+          />
           <input
             className="new-todo-form__timer"
+            type="number"
             min="0"
             max="59"
             placeholder="Sec"

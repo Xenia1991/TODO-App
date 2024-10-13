@@ -59,7 +59,7 @@ class Task extends React.Component {
             <span className="title" onClick={() => onClick(id)}>
               {name}
             </span>
-            <span className="description">
+            <span className="description timer">
               <button
                 type="button"
                 className="icon icon-play"
@@ -67,7 +67,7 @@ class Task extends React.Component {
                 disabled={isCompleted || isTimerOn}
               />
               <button type="button" className="icon icon-pause" onClick={() => onPause(id)} disabled={isCompleted} />
-              {Number(minutes) !== 0 || Number(seconds) !== 0 ? `${minutes}:${seconds}` : 'Time is over!'}
+              {Number(minutes) !== 0 || Number(seconds) !== 0 ? `    ${minutes}:${seconds}` : '    Time is over!'}
             </span>
             <span className="description">
               {`created ${formatDistanceToNow(status.toString(), {

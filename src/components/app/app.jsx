@@ -25,10 +25,11 @@ class App extends React.Component {
       const newElem = {
         ...elem,
         isCompleted: !elem.isCompleted,
+        isTimerOn: false,
+        timerId: [elem.isCompleted || elem.isTimerOn ? clearInterval(elem.timerId) : elem.timerId],
       };
 
       const newArray = [...todoData.slice(0, index), newElem, ...todoData.slice(index + 1)];
-
       return {
         todoData: newArray,
       };
@@ -36,6 +37,15 @@ class App extends React.Component {
   };
 
   deleteTask = (id) => {
+    this.setState(() => {
+      const { todoData } = this.state;
+      const currentTask = todoData.filter((todo) => todo.id === id);
+      const [task] = currentTask;
+
+      return {
+        timerId: clearInterval(task.timerId),
+      };
+    });
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((elem) => elem.id === id);
       const newArray = [...todoData.slice(0, index), ...todoData.slice(index + 1)];
