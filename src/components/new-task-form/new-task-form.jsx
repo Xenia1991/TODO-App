@@ -19,7 +19,7 @@ class NewTaskForm extends React.Component {
   handleChangeSec = (event) => {
     const { onSecondsChange } = this.props;
     const { value } = event.target;
-    if (value <= '59') {
+    if (value <= 59) {
       onSecondsChange(value);
     } else {
       onSecondsChange('59');
@@ -49,6 +49,7 @@ class NewTaskForm extends React.Component {
             type="number"
             className="new-todo-form__timer"
             placeholder="Min"
+            maxLength={3}
             onChange={this.handleChangeMin}
             value={minValue}
           />

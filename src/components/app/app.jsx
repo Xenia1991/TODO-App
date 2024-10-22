@@ -64,15 +64,27 @@ class App extends React.Component {
   };
 
   addMinutesValue = (text) => {
-    this.setState({
-      inputMin: text,
-    });
+    if (Number(text) < 10) {
+      this.setState({
+        inputMin: `0${Number(text)}`,
+      });
+    } else {
+      this.setState({
+        inputMin: `${Number(text)}`,
+      });
+    }
   };
 
   addSecondsValue = (text) => {
-    this.setState({
-      inputSec: text,
-    });
+    if (Number(text) < 10) {
+      this.setState({
+        inputSec: `0${Number(text)}`,
+      });
+    } else {
+      this.setState({
+        inputSec: `${Number(text)}`,
+      });
+    }
   };
 
   addNewtask = () => {
@@ -85,8 +97,8 @@ class App extends React.Component {
         status: new Date(),
         isEditing: false,
         isCompleted: false,
-        minutes: Number(inputMin),
-        seconds: Number(inputSec),
+        minutes: inputMin,
+        seconds: inputSec,
         timerId: null,
         isTimerOn: false,
       };
@@ -190,19 +202,49 @@ class App extends React.Component {
     });
   };
 
+  formatMinutes = (minutes, seconds) => {
+    let mins = '';
+    if (Number(seconds) !== 0 && Number(minutes) < 10) {
+      mins = `0${Number(minutes)}`;
+    } else if (Number(seconds) === 0 && Number(minutes) < 10) {
+      mins = `0${Number(minutes) - 1}`;
+    } else if (Number(seconds) === 0 && Number(minutes) === 10) {
+      mins = `0${Number(minutes) - 1}`;
+    } else if (Number(seconds) === 59 && Number(minutes) < 10) {
+      mins = `0${Number(minutes)}`;
+    } else if (Number(seconds) === 0 && Number(minutes) >= 10) {
+      mins = `${Number(minutes) - 1}`;
+    } else {
+      mins = `${Number(minutes)}`;
+    }
+    return mins;
+  };
+
+  formatSeconds = (seconds) => {
+    let sec = '';
+    if (Number(seconds) > 0 && Number(seconds) <= 10) {
+      sec = `0${Number(seconds) - 1}`;
+    } else if (Number(seconds) === 0) {
+      sec = '59';
+    } else {
+      sec = `${Number(seconds) - 1}`;
+    }
+    return sec;
+  };
+
   startTimer = (id) => {
     const setTimer = setInterval(() => {
       const { todoData } = this.state;
       const currentTask = todoData.filter((todo) => todo.id === id);
       const index = todoData.findIndex((el) => el.id === id);
       const [task] = currentTask;
+      const mins = this.formatMinutes(task.minutes, task.seconds);
+      const sec = this.formatSeconds(task.seconds);
       const newTask = {
         ...task,
-        minutes: [
-          Number(task.minutes) !== 0 && Number(task.seconds) === 0 ? Number(task.minutes) - 1 : Number(task.minutes),
-        ],
-        seconds: [Number(task.seconds) !== 0 ? Number(task.seconds) - 1 : '59'],
-        timerId: [Number(task.minutes) === 0 && Number(task.seconds) === 1 ? clearInterval(task.timerId) : setTimer],
+        minutes: mins,
+        seconds: sec,
+        timerId: Number(task.minutes) === 0 && Number(task.seconds) === 1 ? clearInterval(task.timerId) : setTimer,
         isTimerOn: true,
       };
       const newArray = [...todoData.slice(0, index), newTask, ...todoData.slice(index + 1)];
