@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
@@ -6,6 +8,10 @@ import './task.css';
 import PropTypes from 'prop-types';
 
 class Task extends React.Component {
+  state = {
+    isOn: false,
+  };
+
   handleChange = (event) => {
     const { onChange } = this.props;
     const { value } = event.target;
@@ -18,23 +24,45 @@ class Task extends React.Component {
     onSubmit(id);
   };
 
+  handlePlay = (id) => {
+    const { onPlay } = this.props;
+    this.setState({
+      isOn: true,
+    });
+    onPlay(id);
+  };
+
+  handlePause = (id) => {
+    const { onPause } = this.props;
+    this.setState({
+      isOn: false,
+    });
+    onPause(id);
+  };
+
+  handleComplitedClick = (id) => {
+    const { onClick } = this.props;
+    this.setState({
+      isOn: false,
+    });
+    onClick(id);
+  };
+
   render() {
     const {
       name,
       id,
       status,
-      isCompleted,
+      isCompleted = false,
       isEditing,
       minutes,
       seconds,
-      isTimerOn,
       onClick,
       onDelete,
       onEdit,
       value,
-      onPause,
-      onPlay,
     } = this.props;
+    const { isOn } = this.state;
     if (isEditing) {
       return (
         <li className="editing">
@@ -52,7 +80,7 @@ class Task extends React.Component {
             className="toggle"
             checked={isCompleted}
             type="checkbox"
-            onClick={() => onClick(id)}
+            onClick={() => this.handleComplitedClick(id)}
             onChange={(e) => e.target.checked}
           />
           <label>
@@ -63,10 +91,15 @@ class Task extends React.Component {
               <button
                 type="button"
                 className="icon icon-play"
-                onClick={() => onPlay(id)}
-                disabled={isCompleted || isTimerOn}
+                onClick={() => this.handlePlay(id)}
+                disabled={isCompleted || isOn}
               />
-              <button type="button" className="icon icon-pause" onClick={() => onPause(id)} disabled={isCompleted} />
+              <button
+                type="button"
+                className="icon icon-pause"
+                onClick={() => this.handlePause(id)}
+                disabled={isCompleted}
+              />
               {Number(minutes) !== 0 || Number(seconds) !== 0 ? `    ${minutes}:${seconds}` : '    Time is over!'}
             </span>
             <span className="description">
