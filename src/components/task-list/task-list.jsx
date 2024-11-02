@@ -6,73 +6,70 @@ import Task from '../task/task';
 
 import './task-list.css';
 
-class TaskList extends React.Component {
-  render() {
-    const { todos, value, filterFlag, onActive, onDelete, onEdit, onChange, onSubmit, onPause, onPlay } = this.props;
-    let filteredTodos = [...todos];
+const TaskList = ({
+  todos = [],
+  value = 'editing task',
+  filterFlag = 'All',
+  onActive = () => {},
+  onDelete = () => {},
+  onEdit = () => {},
+  onChange = () => {},
+  onSubmit = () => {},
+  onPause = () => {},
+  onPlay = () => {},
+}) => {
+  let filteredTodos = [...todos];
 
-    if (filterFlag === 'active') {
-      filteredTodos = filteredTodos.filter((todo) => !todo.isCompleted);
-    }
-    if (filterFlag === 'completed') {
-      filteredTodos = filteredTodos.filter((todo) => todo.isCompleted);
-    }
-    const todosItems = filteredTodos.map((item) => {
-      const { id, name, status, isEditing, isCompleted, minutes, seconds, isTimerOn } = item;
-      return (
-        <Task
-          id={id}
-          key={id}
-          name={name}
-          status={status}
-          isEditing={isEditing}
-          isCompleted={isCompleted}
-          minutes={minutes}
-          seconds={seconds}
-          onClick={onActive}
-          onDelete={onDelete}
-          onEdit={onEdit}
-          value={value}
-          onChange={onChange}
-          onSubmit={onSubmit}
-          onPause={onPause}
-          onPlay={onPlay}
-          isTimerOn={isTimerOn}
-        />
-      );
-    });
-    return <ul className="todo-list">{todosItems}</ul>;
+  if (filterFlag === 'active') {
+    filteredTodos = filteredTodos.filter((todo) => !todo.isCompleted);
   }
-}
-
-TaskList.defaultProps = {
-  todos: [],
-  filterFlag: 'All',
-  value: 'editing task',
-  onActive: () => {},
-  onDelete: () => {},
-  onEdit: () => {},
-  onChange: () => {},
-  onSubmit: () => {},
+  if (filterFlag === 'completed') {
+    filteredTodos = filteredTodos.filter((todo) => todo.isCompleted);
+  }
+  const todosItems = filteredTodos.map((item) => {
+    const { id, name, status, isEditing, isCompleted, minutes, seconds, isTimerOn } = item;
+    return (
+      <Task
+        id={id}
+        key={id}
+        name={name}
+        status={status}
+        isEditing={isEditing}
+        isCompleted={isCompleted}
+        minutes={minutes}
+        seconds={seconds}
+        onClick={onActive}
+        onDelete={onDelete}
+        onEdit={onEdit}
+        inputValue={value}
+        onChange={onChange}
+        onSubmit={onSubmit}
+        onPause={onPause}
+        onPlay={onPlay}
+        isTimerOn={isTimerOn}
+      />
+    );
+  });
+  return <ul className="todo-list">{todosItems}</ul>;
 };
 
 TaskList.propTypes = {
   todos: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-      status: PropTypes.instanceOf(Date),
-      isEditing: PropTypes.bool,
-      isCompleted: PropTypes.bool,
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      status: PropTypes.instanceOf(Date).isRequired,
+      isEditing: PropTypes.bool.isRequired,
+      isCompleted: PropTypes.bool.isRequired,
     })
-  ),
-  filterFlag: PropTypes.string,
-  value: PropTypes.string,
-  onActive: PropTypes.func,
-  onDelete: PropTypes.func,
-  onEdit: PropTypes.func,
-  onChange: PropTypes.func,
-  onSubmit: PropTypes.func,
+  ).isRequired,
+  filterFlag: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onActive: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default TaskList;

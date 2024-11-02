@@ -3,21 +3,26 @@ import React from 'react';
 import './new-task-form.css';
 import PropTypes from 'prop-types';
 
-class NewTaskForm extends React.Component {
-  handleChangeTask = (event) => {
-    const { onChange } = this.props;
+const NewTaskForm = ({
+  inputValue = '',
+  minValue,
+  secValue,
+  onChange = (text) => text,
+  onMinutesChange,
+  onSecondsChange,
+  onSubmit = () => [],
+}) => {
+  const handleChangeTask = (event) => {
     const { value } = event.target;
     onChange(value);
   };
 
-  handleChangeMin = (event) => {
-    const { onMinutesChange } = this.props;
+  const handleChangeMin = (event) => {
     const { value } = event.target;
     onMinutesChange(value);
   };
 
-  handleChangeSec = (event) => {
-    const { onSecondsChange } = this.props;
+  const handleChangeSec = (event) => {
     const { value } = event.target;
     if (value <= 59) {
       onSecondsChange(value);
@@ -26,59 +31,48 @@ class NewTaskForm extends React.Component {
     }
   };
 
-  handleSubmit = (event) => {
-    const { onSubmit } = this.props;
+  const handleSubmit = (event) => {
     event.preventDefault();
     onSubmit();
   };
 
-  render() {
-    const { value, minValue, secValue } = this.props;
-
-    return (
-      <header className="header">
-        <h1>todos</h1>
-        <form onSubmit={this.handleSubmit} className="new-todo-form">
-          <input
-            className="new-todo"
-            placeholder="What needs to be done?"
-            value={value}
-            onChange={this.handleChangeTask}
-          />
-          <input
-            type="number"
-            className="new-todo-form__timer"
-            placeholder="Min"
-            maxLength={3}
-            onChange={this.handleChangeMin}
-            value={minValue}
-          />
-          <input
-            className="new-todo-form__timer"
-            type="number"
-            min="0"
-            max="59"
-            placeholder="Sec"
-            onChange={this.handleChangeSec}
-            value={secValue}
-          />
-          <button type="submit" />
-        </form>
-      </header>
-    );
-  }
-}
-
-NewTaskForm.defaultProps = {
-  value: 'New task is here',
-  onChange: (text) => text,
-  onSubmit: () => [],
+  return (
+    <header className="header">
+      <h1>todos</h1>
+      <form onSubmit={handleSubmit} className="new-todo-form">
+        <input
+          className="new-todo"
+          placeholder="What needs to be done?"
+          value={inputValue}
+          onChange={handleChangeTask}
+        />
+        <input
+          type="number"
+          className="new-todo-form__timer"
+          placeholder="Min"
+          maxLength={3}
+          onChange={handleChangeMin}
+          value={minValue}
+        />
+        <input
+          className="new-todo-form__timer"
+          type="number"
+          min="0"
+          max="59"
+          placeholder="Sec"
+          onChange={handleChangeSec}
+          value={secValue}
+        />
+        <button type="submit" />
+      </form>
+    </header>
+  );
 };
 
 NewTaskForm.propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-  onSubmit: PropTypes.func,
+  inputValue: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default NewTaskForm;

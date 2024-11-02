@@ -205,7 +205,7 @@ const App = () => {
         onSubmit={addNewtask}
         minValue={inputMin}
         secValue={inputSec}
-        value={inputValue}
+        inputValue={inputValue}
       />
       <section className="main">
         <TaskList
