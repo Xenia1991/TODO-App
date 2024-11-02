@@ -31,7 +31,6 @@
       "react/react-in-jsx-scope": "off",
       "react/state-in-constructor": ["error", "never"],
       "class-methods-use-this":["off"],
-      "max-len": ["error", { "code": 120 }],
       "react/prop-types": 0,
       "react/prefer-stateless-function": "off",
       "import/no-unresolved": [2, { "caseSensitive": false }],
@@ -39,8 +38,9 @@
       "comma-dangle": ["off"],
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "jsx-a11y/click-events-have-key-events": ["off"],
-      "jsx-a11y/label-has-associated-control": ["off"],
+      "jsx-a11y/label-has-associated-control": "off",
       "jsx-a11y/no-noninteractive-element-interactions": ["off"],
+      "max-len": "off",
       "import/order": [
         2,
         {

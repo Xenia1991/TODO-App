@@ -11,6 +11,8 @@ class App extends React.Component {
     todoData: [],
     filterFlag: 'all',
     inputValue: '',
+    inputMin: '',
+    inputSec: '',
     editInputValue: '',
   };
 
@@ -23,10 +25,11 @@ class App extends React.Component {
       const newElem = {
         ...elem,
         isCompleted: !elem.isCompleted,
+        isTimerOn: false,
+        timerId: [elem.isCompleted || elem.isTimerOn ? clearInterval(elem.timerId) : elem.timerId],
       };
 
       const newArray = [...todoData.slice(0, index), newElem, ...todoData.slice(index + 1)];
-
       return {
         todoData: newArray,
       };
@@ -34,6 +37,15 @@ class App extends React.Component {
   };
 
   deleteTask = (id) => {
+    this.setState(() => {
+      const { todoData } = this.state;
+      const currentTask = todoData.filter((todo) => todo.id === id);
+      const [task] = currentTask;
+
+      return {
+        timerId: clearInterval(task.timerId),
+      };
+    });
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((elem) => elem.id === id);
       const newArray = [...todoData.slice(0, index), ...todoData.slice(index + 1)];
@@ -50,21 +62,51 @@ class App extends React.Component {
     });
   };
 
-  addNewtask = () => {
-    const { inputValue } = this.state;
+  addMinutesValue = (text) => {
+    if (Number(text) < 10) {
+      this.setState({
+        inputMin: `0${Number(text)}`,
+      });
+    } else {
+      this.setState({
+        inputMin: `${Number(text)}`,
+      });
+    }
+  };
 
-    if (inputValue) {
+  addSecondsValue = (text) => {
+    if (Number(text) < 10) {
+      this.setState({
+        inputSec: `0${Number(text)}`,
+      });
+    } else {
+      this.setState({
+        inputSec: `${Number(text)}`,
+      });
+    }
+  };
+
+  addNewtask = () => {
+    const { inputValue, inputMin, inputSec } = this.state;
+
+    if (inputValue && inputMin && inputSec) {
       const newTask = {
         id: this.getTaskId(),
         name: inputValue.trim(),
         status: new Date(),
         isEditing: false,
         isCompleted: false,
+        minutes: inputMin,
+        seconds: inputSec,
+        timerId: null,
+        isTimerOn: false,
       };
       this.setState(({ todoData }) => {
         const newTodos = [...todoData, newTask];
         return {
           todoData: newTodos,
+          inputMin: '',
+          inputSec: '',
           inputValue: '',
         };
       });
@@ -143,12 +185,87 @@ class App extends React.Component {
     }
   };
 
-  render() {
-    const { todoData, inputValue, filterFlag, editInputValue } = this.state;
+  pauseTimer = (id) => {
+    const { todoData } = this.state;
+    const currentTask = todoData.filter((todo) => todo.id === id);
+    const [task] = currentTask;
+    const index = todoData.findIndex((el) => el.id === id);
+    const newTask = {
+      ...task,
+      timerId: clearInterval(task.timerId),
+      isTimerOn: false,
+    };
+    const newArray = [...todoData.slice(0, index), newTask, ...todoData.slice(index + 1)];
+    this.setState({
+      todoData: newArray,
+    });
+  };
 
+  formatMinutes = (minutes, seconds) => {
+    let mins = '';
+    if (Number(seconds) !== 0 && Number(minutes) < 10) {
+      mins = `0${Number(minutes)}`;
+    } else if (Number(seconds) === 0 && Number(minutes) < 10) {
+      mins = `0${Number(minutes) - 1}`;
+    } else if (Number(seconds) === 0 && Number(minutes) === 10) {
+      mins = `0${Number(minutes) - 1}`;
+    } else if (Number(seconds) === 59 && Number(minutes) < 10) {
+      mins = `0${Number(minutes)}`;
+    } else if (Number(seconds) === 0 && Number(minutes) >= 10) {
+      mins = `${Number(minutes) - 1}`;
+    } else {
+      mins = `${Number(minutes)}`;
+    }
+    return mins;
+  };
+
+  formatSeconds = (seconds) => {
+    let sec = '';
+    if (Number(seconds) > 0 && Number(seconds) <= 10) {
+      sec = `0${Number(seconds) - 1}`;
+    } else if (Number(seconds) === 0) {
+      sec = '59';
+    } else {
+      sec = `${Number(seconds) - 1}`;
+    }
+    return sec;
+  };
+
+  startTimer = (id) => {
+    const setTimer = setInterval(() => {
+      const { todoData } = this.state;
+      const currentTask = todoData.filter((todo) => todo.id === id);
+      const index = todoData.findIndex((el) => el.id === id);
+      const [task] = currentTask;
+      const mins = this.formatMinutes(task.minutes, task.seconds);
+      const sec = this.formatSeconds(task.seconds);
+      const newTask = {
+        ...task,
+        minutes: mins,
+        seconds: sec,
+        timerId: Number(task.minutes) === 0 && Number(task.seconds) === 1 ? clearInterval(task.timerId) : setTimer,
+        isTimerOn: true,
+      };
+      const newArray = [...todoData.slice(0, index), newTask, ...todoData.slice(index + 1)];
+      this.setState({
+        todoData: newArray,
+      });
+    }, 1000);
+  };
+
+  render() {
+    const { todoData, inputValue, filterFlag, editInputValue, inputMin, inputSec } = this.state;
     return (
       <section className="todoapp">
-        <NewTaskForm onChange={this.addInputValue} onSubmit={this.addNewtask} value={inputValue} />
+        <NewTaskForm
+          onChange={this.addInputValue}
+          onMinutesChange={this.addMinutesValue}
+          onSecondsChange={this.addSecondsValue}
+          onSubmit={this.addNewtask}
+          minValue={inputMin}
+          secValue={inputSec}
+          value={inputValue}
+        />
         <section className="main">
           <TaskList
             todos={todoData}
@@ -159,6 +276,8 @@ class App extends React.Component {
             value={editInputValue}
             onChange={this.editInputValue}
             onSubmit={this.changeTask}
+            onPause={this.pauseTimer}
+            onPlay={this.startTimer}
           />
           <Footer
             todos={todoData}

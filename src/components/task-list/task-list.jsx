@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -7,7 +8,7 @@ import './task-list.css';
 
 class TaskList extends React.Component {
   render() {
-    const { todos, value, filterFlag, onActive, onDelete, onEdit, onChange, onSubmit } = this.props;
+    const { todos, value, filterFlag, onActive, onDelete, onEdit, onChange, onSubmit, onPause, onPlay } = this.props;
     let filteredTodos = [...todos];
 
     if (filterFlag === 'active') {
@@ -17,7 +18,7 @@ class TaskList extends React.Component {
       filteredTodos = filteredTodos.filter((todo) => todo.isCompleted);
     }
     const todosItems = filteredTodos.map((item) => {
-      const { id, name, status, isEditing, isCompleted } = item;
+      const { id, name, status, isEditing, isCompleted, minutes, seconds, isTimerOn } = item;
       return (
         <Task
           id={id}
@@ -26,12 +27,17 @@ class TaskList extends React.Component {
           status={status}
           isEditing={isEditing}
           isCompleted={isCompleted}
+          minutes={minutes}
+          seconds={seconds}
           onClick={onActive}
           onDelete={onDelete}
           onEdit={onEdit}
           value={value}
           onChange={onChange}
           onSubmit={onSubmit}
+          onPause={onPause}
+          onPlay={onPlay}
+          isTimerOn={isTimerOn}
         />
       );
     });
