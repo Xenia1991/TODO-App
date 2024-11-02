@@ -31,15 +31,9 @@ const App = () => {
   };
 
   const deleteTask = (id) => {
-    // this.setState(() => {
-    //   const { todoData } = this.state;
-    //   const currentTask = todoData.filter((todo) => todo.id === id);
-    //   const [task] = currentTask;
-
-    //   return {
-    //     timerId: clearInterval(task.timerId),
-    //   };
-    // });
+    const currentTask = todoData.filter((todo) => todo.id === id);
+    const [task] = currentTask;
+    task.timerId = clearInterval(task.timerId);
     const index = todoData.findIndex((elem) => elem.id === id);
     const newArray = [...todoData.slice(0, index), ...todoData.slice(index + 1)];
     setTodoData(newArray);
@@ -179,20 +173,22 @@ const App = () => {
 
   const startTimer = (id) => {
     const setTimer = setInterval(() => {
-      const currentTask = todoData.filter((todo) => todo.id === id);
-      const index = todoData.findIndex((el) => el.id === id);
-      const [task] = currentTask;
-      const mins = formatMinutes(task.minutes, task.seconds);
-      const sec = formatSeconds(task.seconds);
-      const newTask = {
-        ...task,
-        minutes: mins,
-        seconds: sec,
-        timerId: Number(task.minutes) === 0 && Number(task.seconds) === 1 ? clearInterval(task.timerId) : setTimer,
-        isTimerOn: true,
-      };
-      const newArray = [...todoData.slice(0, index), newTask, ...todoData.slice(index + 1)];
-      setTodoData(newArray);
+      setTodoData((prevTodo) => {
+        const currentTask = prevTodo.filter((todo) => todo.id === id);
+        const index = prevTodo.findIndex((el) => el.id === id);
+        const [task] = currentTask;
+        const mins = formatMinutes(task.minutes, task.seconds);
+        const sec = formatSeconds(task.seconds);
+        const newTask = {
+          ...task,
+          minutes: mins,
+          seconds: sec,
+          timerId: Number(task.minutes) === 0 && Number(task.seconds) === 1 ? clearInterval(task.timerId) : setTimer,
+          isTimerOn: true,
+        };
+        const newArray = [...prevTodo.slice(0, index), newTask, ...prevTodo.slice(index + 1)];
+        return newArray;
+      });
     }, 1000);
   };
 
